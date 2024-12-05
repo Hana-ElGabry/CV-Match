@@ -1,6 +1,6 @@
 import unittest
 
-from search import search
+from search import search_jobs, search_courses
 
 jobs_df = pd.read_excel("jobs.xlsx")
 courses_df = pd.read_excel("courses.xlsx")
