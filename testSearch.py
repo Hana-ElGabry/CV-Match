@@ -2,30 +2,28 @@ import unittest
 import pandas as pd
 from search import search_jobs, search_courses
 
-jobs_df = pd.DataFrame({
-    'Job Title': ['Software Engineer', 'Data Scientist'],
-    'Location': ['New York', 'San Francisco']
-})
-
-courses_df = pd.DataFrame({
-    'Course Name': ['Intro to Python', 'Advanced Java'],
-    'Language': ['Python', 'Java']
-})
-
-# Test cases
 class TestSearch(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+       
+        cls.jobs_df = pd.read_excel("jobs.xlsx")
+        cls.courses_df = pd.read_excel("courses.xlsx")
+
     def test_search_jobs(self):
-        location = "new"
-        result = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
-        self.assertTrue(result.equals(search_jobs(location)))
+        location = "Cairo"  
+        expected_result = self.jobs_df[self.jobs_df['Location'].str.contains(location, case=False)]
+        actual_result = search_jobs(location)
+        self.assertTrue(expected_result.equals(actual_result))
 
     def test_search_courses(self):
-        language = "java"
-        result = courses_df[courses_df['Language'].str.contains(language, case=False)]
-        self.assertTrue(result.equals(search_courses(language)))
+        language = "JavaScript"  
+        expected_result = self.courses_df[self.courses_df['Language'].str.contains(language, case=False)]
+        actual_result = search_courses(language)
+        self.assertTrue(expected_result.equals(actual_result))
 
 if __name__ == "__main__":
     unittest.main()
+
 
 
 # # test3
