@@ -18,9 +18,14 @@ jobs:
           python-version: "3.x"
       - name: Install dependencies
         run: pip install pandas openpyxl
-      - name: Run unit tests
+      - name: Clear Python cache
         run: |
-          python -m unittest discover
+          if [ -d "__pycache__" ]; then
+            rm -rf __pycache__
+          fi
+      - name: Run unit tests
+        run: python -m unittest discover
+
 
   deploy:
     runs-on: windows-latest
