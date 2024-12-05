@@ -5,3 +5,7 @@ By collecting user information post-login, the system customizes the portfolio c
 
 It promotes networking by allowing users to interact with like-minded people. The website also delivers specialised employment recommendations based on the user's qualifications and interests.
 One notable element of the site is its AI-powered video interview simulation. This tool uses speech recognition and conversational AI to simulate real-life interview circumstances, giving users an engaging and immersive experience to help them improve their interview abilities. The platform's multidimensional strategy enables users to improve their professional presence, upskill successfully, and achieve their career objectives.
+
+# our project's current dashboard
+![image](https://github.com/user-attachments/assets/7b6d6e5f-05f6-42a6-b7c3-df9751c24068)
+
