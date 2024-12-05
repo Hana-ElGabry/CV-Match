@@ -4,6 +4,7 @@ import pandas as pd
 jobs_df = pd.read_excel("jobs.xlsx")
 
 # Function to search jobs based on location
+#line of code 
 def search_jobs(location):
     result = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
     return result
