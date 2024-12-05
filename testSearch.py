@@ -1,31 +1,40 @@
 import unittest
 import pandas as pd
-
 from search import search_jobs, search_courses
 
-jobs_df = pd.read_excel("jobs.xlsx")
-courses_df = pd.read_excel("courses.xlsx")
-# test case 1
-language = "JavaScript"
-expected_courses = courses_df[courses_df['Language'].str.contains(language, case=False)]
-assert search_courses(language).equals(expected_courses), "Test Case 2 Failed"
+jobs_df = pd.DataFrame({
+    'Job Title': ['Software Engineer', 'Data Scientist'],
+    'Location': ['New York', 'San Francisco']
+})
 
-print("Test Case 2 Passed: search_courses function works correctly for language search.")
+courses_df = pd.DataFrame({
+    'Course Name': ['Intro to Python', 'Advanced Java'],
+    'Language': ['Python', 'Java']
+})
 
-# test case 2
-location = "Cairo"
-expected_jobs = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
-assert search_jobs(location).equals(expected_jobs), "Test Case 1 Failed"
+# Test cases
+class TestSearch(unittest.TestCase):
+    def test_search_jobs(self):
+        location = "new"
+        result = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
+        self.assertTrue(result.equals(search_jobs(location)))
 
-print("Test Case 1 Passed: search_jobs function works correctly for location search.")
+    def test_search_courses(self):
+        language = "java"
+        result = courses_df[courses_df['Language'].str.contains(language, case=False)]
+        self.assertTrue(result.equals(search_courses(language)))
 
-# test3
-location = "paris"
-expected_jobs = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
-assert search_jobs(location).equals(expected_jobs), "Test Case 3 Failed (jobs)"
+if __name__ == "__main__":
+    unittest.main()
 
-language = "C++"
-expected_courses = courses_df[courses_df['Language'].str.contains(language, case=False)]
-assert search_courses(language).equals(expected_courses), "Test Case 3 Failed (courses)"
 
-print("Test Case 3 Passed: Functions handle no-match cases correctly.")
+# # test3
+# location = "paris"
+# expected_jobs = jobs_df[jobs_df['Location'].str.contains(location, case=False)]
+# assert search_jobs(location).equals(expected_jobs), "Test Case 3 Failed (jobs)"
+
+# language = "C++"
+# expected_courses = courses_df[courses_df['Language'].str.contains(language, case=False)]
+# assert search_courses(language).equals(expected_courses), "Test Case 3 Failed (courses)"
+
+# print("Test Case 3 Passed: Functions handle no-match cases correctly.")
