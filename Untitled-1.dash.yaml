@@ -1,0 +1,22 @@
+global:
+    mode: dark
+datasets:
+    - uuid: hello
+      content: >
+        [
+          ["documentation", 50],
+          ["prototype", 40],
+          ["frontend", 10],
+          ["backend", 5],
+          ["architecture", 25]
+        ]
+pages:
+    - properties:
+        margin: 10px
+      components:
+        - settings:
+            type: PIECHART
+            general:
+                title: workflow
+            lookup:
+                uuid: hello
