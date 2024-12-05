@@ -20,11 +20,12 @@ jobs:
         run: pip install pandas openpyxl
       - name: Clear Python cache
         run: |
-          if [ -d "__pycache__" ]; then
-            rm -rf __pycache__
-          fi
+          if (Test-Path "__pycache__") {
+            Remove-Item "__pycache__" -Recurse -Force
+          }
       - name: Run unit tests
         run: python -m unittest discover
+
 
 
   deploy:
