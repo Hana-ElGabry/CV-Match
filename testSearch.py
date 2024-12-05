@@ -1,4 +1,5 @@
 import unittest
+import pandas as pd
 
 from search import search_jobs, search_courses
 
