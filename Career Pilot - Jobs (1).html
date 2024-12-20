@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)file:///C:/Users/Admin/Desktop/.html# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Pilot - Jobs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .job-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .job {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .job:hover {
+            transform: scale(1.02);
+        }
+        .job h2 {
+            margin: 0 0 1rem;
+            color: #28a745;
+        }
+        .job p {
+            margin: 0 0 1rem;
+        }
+        .job a {
+            text-decoration: none;
+            color: white;
+            background-color: #28a745;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        .job a:hover {
+            background-color: #1e7e34;
+        }
+        .details-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .details-container h1 {
+            color: #28a745;
+        }
+        .details-container p {
+            line-height: 1.5;
+        }
+        .details-container a {
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            color: white;
+            background-color: #28a745;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+        }
+        .details-container a:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Career Pilot - Explore Job Opportunities</h1>
+    </header>
+    <div class="container">
+        <h1>Available Jobs</h1>
+        <div class="job-list">
+            <div class="job">
+                <h2>Software Engineer</h2>
+                <p>Join our tech team to design and develop innovative software solutions.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=software-engineer">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Data Scientist</h2>
+                <p>Analyze complex datasets to provide actionable insights and drive decisions.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=data-scientist">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Marketing Specialist</h2>
+                <p>Craft and execute marketing strategies to reach and engage our target audience.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=marketing-specialist">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Project Manager</h2>
+                <p>Lead cross-functional teams to deliver projects on time and within scope.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=project-manager">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Product Designer</h2>
+                <p>Design user-friendly products that are intuitive, engaging, and functional.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=product-designer">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>UX Researcher</h2>
+                <p>Conduct user research to improve product designs and enhance user experiences.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=ux-researcher">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Business Analyst</h2>
+                <p>Analyze business processes and make data-driven recommendations to improve efficiency.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=business-analyst">Apply Now</a>
+            </div>
+            <div class="job">
+                <h2>Sales Manager</h2>
+                <p>Manage sales teams and develop strategies to meet revenue targets.</p>
+                <a href="file:///C:/Users/Admin/Desktop/job_details.html?job=sales-manager">Apply Now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="details-container" id="job-details" style="display:none;">
+        <h1 id="details-title"></h1>
+        <p id="details-description"></p>
+        <ul id="details-responsibilities"></ul>
+        <ul id="details-qualifications"></ul>
+        <a href="file:///C:/Users/Admin/Desktop/.html#" onclick="closeDetails(); return false;">Back to Jobs</a>
+    </div>
+
+    <script>
+        const jobData = {
+            "software-engineer": {
+                title: "Software Engineer",
+                description: "Join our tech team to design and develop innovative software solutions. This role involves working closely with cross-functional teams to create scalable, high-quality systems.",
+                responsibilities: [
+                    "Design, develop, and maintain software applications.",
+                    "Collaborate with stakeholders to gather requirements and deliver solutions.",
+                    "Participate in code reviews and ensure best practices.",
+                    "Debug and resolve technical issues."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Computer Science or a related field.",
+                    "Proficiency in programming languages like Java, Python, or JavaScript.",
+                    "Experience with web development frameworks.",
+                    "Strong problem-solving skills."
+                ]
+            },
+            "data-scientist": {
+                title: "Data Scientist",
+                description: "Work with large datasets to identify trends and make data-driven decisions that help steer the company’s strategy and operations.",
+                responsibilities: [
+                    "Analyze complex datasets to extract meaningful insights.",
+                    "Build predictive models and machine learning algorithms.",
+                    "Collaborate with business teams to develop data-driven strategies."
+                ],
+                qualifications: [
+                    "Degree in Data Science, Statistics, or related field.",
+                    "Experience with Python, R, and machine learning libraries.",
+                    "Strong analytical and problem-solving skills."
+                ]
+            },
+            "marketing-specialist": {
+                title: "Marketing Specialist",
+                description: "Develop and implement marketing strategies to boost brand awareness and engagement with potential customers.",
+                responsibilities: [
+                    "Create and manage digital marketing campaigns.",
+                    "Analyze marketing performance and adjust strategies.",
+                    "Collaborate with sales and product teams to align marketing efforts."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Marketing or related field.",
+                    "Experience with digital marketing platforms and analytics tools.",
+                    "Strong communication and creativity skills."
+                ]
+            },
+            "project-manager": {
+                title: "Project Manager",
+                description: "Manage projects from inception to completion, ensuring that teams deliver high-quality results on time and within scope.",
+                responsibilities: [
+                    "Lead cross-functional teams and manage project timelines.",
+                    "Ensure projects are completed on time and within budget.",
+                    "Facilitate communication between stakeholders and team members."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Business or related field.",
+                    "Proven experience managing projects.",
+                    "Strong organizational and leadership skills."
+                ]
+            },
+            "product-designer": {
+                title: "Product Designer",
+                description: "Design user-friendly products that are intuitive, engaging, and functional.",
+                responsibilities: [
+                    "Work with teams to design, prototype, and test new products.",
+                    "Ensure user-centered design principles are applied.",
+                    "Conduct user feedback sessions and iterate designs based on insights."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Product Design or related field.",
+                    "Proficiency in design software (e.g., Adobe XD, Sketch).",
+                    "Experience with user testing and prototyping."
+                ]
+            },
+            "ux-researcher": {
+                title: "UX Researcher",
+                description: "Conduct user research to improve product designs and enhance user experiences.",
+                responsibilities: [
+                    "Conduct usability studies and user interviews.",
+                    "Analyze research data and provide actionable insights.",
+                    "Collaborate with design teams to optimize user experience."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Psychology, Human-Computer Interaction, or a related field.",
+                    "Experience with UX research tools and methods.",
+                    "Strong analytical skills."
+                ]
+            },
+            "business-analyst": {
+                title: "Business Analyst",
+                description: "Analyze business processes and make data-driven recommendations to improve efficiency.",
+                responsibilities: [
+                    "Gather and analyze business requirements.",
+                    "Create business cases and performance reports.",
+                    "Work with teams to implement process improvements."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Business or related field.",
+                    "Experience with business analysis and data modeling tools.",
+                    "Strong problem-solving and communication skills."
+                ]
+            },
+            "sales-manager": {
+                title: "Sales Manager",
+                description: "Manage sales teams and develop strategies to meet revenue targets.",
+                responsibilities: [
+                    "Lead and motivate the sales team.",
+                    "Develop and execute sales strategies.",
+                    "Monitor and report on sales performance."
+                ],
+                qualifications: [
+                    "Bachelor's degree in Business or related field.",
+                    "Proven experience in sales management.",
+                    "Excellent leadership and communication skills."
+                ]
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const jobKey = params.get('job');
+        const job = jobData[jobKey];
+        const detailsContainer = document.getElementById('job-details');
+
+        if (job) {
+            detailsContainer.style.display = 'block';
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('details-title').textContent = job.title;
+            document.getElementById('details-description').textContent = job.description;
+
+            const responsibilities = document.getElementById('details-responsibilities');
+            const qualifications = document.getElementById('details-qualifications');
+
+            responsibilities.innerHTML = '';
+            qualifications.innerHTML = '';
+
+            job.responsibilities.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                responsibilities.appendChild(li);
+            });
+
+            job.qualifications.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                qualifications.appendChild(li);
+            });
+        }
+
+        function closeDetails() {
+            detailsContainer.style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+    </script>
+
+
+
+</body></html>
