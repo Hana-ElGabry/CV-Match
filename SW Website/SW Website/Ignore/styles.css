@@ -1,0 +1,245 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap');
+
+/* General Reset and Defaults */
+* {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+header {
+    background-color: #262e4e;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+    text-decoration: none;
+    color: #D862BC;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.8em;
+}
+#small-logo {
+    width: 50px; /* Adjust the width as needed */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+header .navigation a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    padding: 0 20px;
+    transition: color 0.3s ease;
+}
+
+header .navigation a:hover {
+    color: #D862BC;
+}
+
+header .navigation img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+/* Main Hero Section */
+.main {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url(images/homePageBackgroundImage.svg) no-repeat center center/cover;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.main h2 {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.main h2 span {
+    color: #D862BC;
+    font-size: 3.5em;
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+}
+
+.main h3 {
+    font-size: 2em;
+    font-weight: 500;
+    margin: 20px 0;
+}
+
+.main h5 {
+    font-size: 1.1em;
+    font-weight: 300;
+    margin-top: 10px;
+}
+
+.main-btn {
+    color: #fff;
+    background-color: #674188;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 20px;
+    margin-top: 30px;
+    transition: background-color 0.4s ease, transform 0.3s ease;
+}
+
+.main-btn:hover {
+    background-color: #D862BC;
+    transform: scale(1.1);
+}
+
+/* Form Container Styling */
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #262e4e;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+form .form-group {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #674188;
+    outline: none;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #674188;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #D862BC;
+}
+
+/* Sign-up Link Styling */
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+.signup-link a {
+    color: #674188;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.signup-link a:hover {
+    color: #D862BC;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #262e4e;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 0.9em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        padding: 10px 20px;
+    }
+
+    header .logo {
+        font-size: 1.5em;
+    }
+
+    header .navigation a {
+        font-size: 1em;
+        padding: 0 10px;
+    }
+
+    .main h2 span {
+        font-size: 2.5em;
+    }
+
+    .main h3 {
+        font-size: 1.8em;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
