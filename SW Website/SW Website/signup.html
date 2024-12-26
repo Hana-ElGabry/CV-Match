@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Portfolio Website</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <!-- Header with Logo -->
+    <header class="header">
+    </header>
+
+    <!-- Signup Section -->
+    <div class="container">
+        <h1>Sign Up</h1>
+        <div class="form-container">
+            <form id="signup-form">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="firstName" required>
+
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="lastName" required>
+
+                <label for="job-description">Job Description:</label>
+                <textarea id="job-description" name="jobDescription" required></textarea>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="profile-picture">Profile Picture:</label>
+                <input type="file" id="profile-picture" name="profilePicture">
+
+                <label for="cv">Upload CV (optional):</label>
+                <input type="file" id="cv" name="cv">
+
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Login Link Section -->
+        <div class="login-link">
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Portfolio Website</p>
+    </footer>
+
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const firstName = document.getElementById("first-name").value;
+            const lastName = document.getElementById("last-name").value;
+            const jobDescription = document.getElementById("job-description").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const profilePicture = document.getElementById("profile-picture").files[0];
+            const cv = document.getElementById("cv").files[0];
+
+            // Save the user data in localStorage (simulating a database)
+            localStorage.setItem("userFirstName", firstName);
+            localStorage.setItem("userLastName", lastName);
+            localStorage.setItem("userJobDescription", jobDescription);
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPassword", password);
+
+            // Optionally, save files (if needed, you can convert them to Base64)
+            if (profilePicture) {
+                localStorage.setItem("userProfilePicture", URL.createObjectURL(profilePicture));
+            }
+
+            if (cv) {
+                localStorage.setItem("userCV", URL.createObjectURL(cv));
+            }
+
+            alert("Sign up successful! You can now log in.");
+            window.location.href = "login.html"; // Redirect to the login page
+        });
+    </script>
+</body>
+</html>
