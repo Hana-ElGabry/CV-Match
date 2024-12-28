@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Portfolio Website</title>
+    <link rel="stylesheet" href="profilecs.css">
+</head>
+<body>
+
+    <!-- Header with Logo -->
+    <header class="header">
+        <div class="button-container">
+            <button class="nav-button" onclick="window.location.href='home.html'">Home</button>
+            <button class="nav-button" onclick="window.location.href='login.html'">Logout</button>
+        </div>
+    </header>
+    
+
+    <!-- Profile Section -->
+    <div class="container">
+        <h1>Your Profile</h1>
+        <div class="profile-card">
+            <div class="profile-picture-container">
+                <img id="profile-picture" src="images/default-profile.png" >
+            </div>
+            <div class="profile-details">
+                <!-- Non-Editable Profile Info -->
+                <div id="view-mode">
+                    <p><strong>First Name:</strong> <span id="profile-first-name"></span></p>
+                    <p><strong>Last Name:</strong> <span id="profile-last-name"></span></p>
+                    <p><strong>Job Description:</strong> <span id="profile-job-description"></span></p>
+                    <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                    <p><strong>Uploaded CV:</strong> <a id="profile-cv" href="#" target="_blank">View CV</a></p>
+                    <button id="edit-profile-button">Edit Profile</button>
+                    <!-- Delete Profile Button -->
+                    <button id="delete-profile-button" style="background-color: red; color: white;">Delete Profile</button>
+                </div>
+
+                <!-- Editable Profile Info -->
+                <div id="edit-mode" style="display: none;">
+                    <form id="edit-profile-form">
+                        <label for="edit-first-name">First Name:</label>
+                        <input type="text" id="edit-first-name" name="firstName" required>
+
+                        <label for="edit-last-name">Last Name:</label>
+                        <input type="text" id="edit-last-name" name="lastName" required>
+
+                        <label for="edit-job-description">Job Description:</label>
+                        <textarea id="edit-job-description" name="jobDescription" required></textarea>
+
+                        <label for="edit-profile-picture">Profile Picture:</label>
+                        <input type="file" id="edit-profile-picture" name="profilePicture">
+
+                        <label for="edit-cv">Upload New CV:</label>
+                        <input type="file" id="edit-cv" name="cv">
+
+                        <button type="submit">Save Changes</button>
+                        <button type="button" id="cancel-edit">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Portfolio Website</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Load profile data from localStorage
+            document.getElementById("profile-first-name").textContent = localStorage.getItem("userFirstName") || "Not Provided";
+            document.getElementById("profile-last-name").textContent = localStorage.getItem("userLastName") || "Not Provided";
+            document.getElementById("profile-job-description").textContent = localStorage.getItem("userJobDescription") || "Not Provided";
+            document.getElementById("profile-email").textContent = localStorage.getItem("userEmail") || "Not Provided";
+
+            const profilePictureURL = localStorage.getItem("userProfilePicture");
+            if (profilePictureURL) {
+                document.getElementById("profile-picture").src = profilePictureURL;
+            }
+
+            const cvURL = localStorage.getItem("userCV");
+            if (cvURL) {
+                document.getElementById("profile-cv").href = cvURL;
+                document.getElementById("profile-cv").textContent = "Download CV";
+            } else {
+                document.getElementById("profile-cv").textContent = "No CV uploaded";
+            }
+        });
+
+        // Switch to edit mode
+        document.getElementById("edit-profile-button").addEventListener("click", () => {
+            document.getElementById("view-mode").style.display = "none";
+            document.getElementById("edit-mode").style.display = "block";
+
+            // Pre-fill the form with current data
+            document.getElementById("edit-first-name").value = localStorage.getItem("userFirstName") || "";
+            document.getElementById("edit-last-name").value = localStorage.getItem("userLastName") || "";
+            document.getElementById("edit-job-description").value = localStorage.getItem("userJobDescription") || "";
+        });
+
+        // Cancel editing
+        document.getElementById("cancel-edit").addEventListener("click", () => {
+            document.getElementById("edit-mode").style.display = "none";
+            document.getElementById("view-mode").style.display = "block";
+        });
+
+        // Save edited profile data
+        document.getElementById("edit-profile-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // Save updated data in localStorage
+            localStorage.setItem("userFirstName", document.getElementById("edit-first-name").value);
+            localStorage.setItem("userLastName", document.getElementById("edit-last-name").value);
+            localStorage.setItem("userJobDescription", document.getElementById("edit-job-description").value);
+
+            const newProfilePicture = document.getElementById("edit-profile-picture").files[0];
+            if (newProfilePicture) {
+                localStorage.setItem("userProfilePicture", URL.createObjectURL(newProfilePicture));
+            }
+
+            const newCV = document.getElementById("edit-cv").files[0];
+            if (newCV) {
+                localStorage.setItem("userCV", URL.createObjectURL(newCV));
+            }
+
+            alert("Profile updated successfully!");
+            window.location.reload();
+        });
+
+        // Delete Profile functionality
+        document.getElementById("delete-profile-button").addEventListener("click", () => {
+            const confirmation = confirm("Are you sure you want to delete your profile?");
+            if (confirmation) {
+                // Clear the profile data from localStorage
+                localStorage.removeItem("userFirstName");
+                localStorage.removeItem("userLastName");
+                localStorage.removeItem("userJobDescription");
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("userProfilePicture");
+                localStorage.removeItem("userCV");
+
+                // Redirect to a different page or reload the page
+                alert("Profile deleted successfully!");
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>

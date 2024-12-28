@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portfolio Website</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <!-- Header with Logo -->
+    <header class="header">
+       
+    </header>
+
+    <!-- Login Section -->
+    <div class="container">
+        <h1>Login</h1>
+        <div class="form-container">
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="email" required>
+
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Sign Up Link Section -->
+        <div class="signup-link">
+            <p>New on Portfolio? <a href="signup.html">Sign Up</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Portfolio Website</p>
+    </footer>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            // Retrieve the email and password from localStorage
+            const savedEmail = localStorage.getItem("userEmail");
+            const savedPassword = localStorage.getItem("userPassword");
+
+            // Validate credentials
+            if (email === savedEmail && password === savedPassword) {
+                alert("Login successful!");
+                window.location.href = "profile.html"; // Redirect to the homepage
+            } else {
+                alert("Invalid email or password. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
