@@ -3,8 +3,7 @@ name: Run Django Tests
 on:
   push:
     branches:
-      - main
-      - feature-branch
+      - registration-login-feature
   pull_request:
     branches:
       - main
