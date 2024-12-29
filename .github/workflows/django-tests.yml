@@ -3,10 +3,12 @@ name: Run Django Tests
 on:
   push:
     branches:
+      - main
       - registration-login-feature
   pull_request:
     branches:
       - main
+      - registration-login-feature
 
 jobs:
   test:
