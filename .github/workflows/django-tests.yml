@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - your-feature-branch
-      
+      - registration-login-feature
   pull_request:
     branches:
       - main
+      - registration-login-feature
 
 jobs:
   test:
@@ -25,11 +25,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd release1/cp1/core  # Same folder where manage.py is located
+          cd release1/cp1/core  # Navigate to the folder containing manage.py
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
+
       - name: Run Tests
         run: |
-          cd release1/cp1/core  # Same folder as above
+          cd release1/cp1/core  # Navigate to the folder containing manage.py
           python manage.py test
