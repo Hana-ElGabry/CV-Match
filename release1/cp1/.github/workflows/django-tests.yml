@@ -1,0 +1,33 @@
+name: Run Django Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12.3  # Adjust if you use a different Python version
+
+      - name: Install dependencies
+        run: |
+          cd release1/my_project  # Navigate into the project folder
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        run: |
+          cd release1/my_project  # Navigate into the project folder
+          python manage.py test
