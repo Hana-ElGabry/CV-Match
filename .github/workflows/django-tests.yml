@@ -29,5 +29,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          cd release1/my_project  # Navigate into the project folder
+          cd release1/cp1/core  # Navigate to the folder containing manage.py
           python manage.py test
