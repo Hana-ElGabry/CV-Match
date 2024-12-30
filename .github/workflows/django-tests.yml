@@ -48,4 +48,4 @@ jobs:
       - name: Run Tests
         run: |
           cd release1/cp1/core  # Navigate to the folder containing manage.py
-          find . -name "*test*.py" -exec python {} \;
+          python manage.py test
