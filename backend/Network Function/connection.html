@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Network</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>User Network</h1>
+
+    <!-- Retrieve Users -->
+    <h2>Retrieve All Users</h2>
+    <button onclick="getUsers()">Get Users</button>
+    <div id="users-result" class="result"></div>
+
+    <!-- Search User -->
+    <h2>Search User</h2>
+    <input type="text" id="search-username" placeholder="Enter username">
+    <button onclick="searchUser()">Search User</button>
+    <div id="search-result" class="result"></div>
+
+    <!-- Add User -->
+    <h2>Add User</h2>
+    <input type="text" id="add-name" placeholder="Name">
+    <input type="number" id="add-age" placeholder="Age">
+    <input type="email" id="add-email" placeholder="Email">
+    <button onclick="addUser()">Add User</button>
+    <div id="add-result" class="result"></div>
+
+    <!-- Remove User -->
+    <h2>Remove User</h2>
+    <input type="email" id="remove-email" placeholder="Enter email to remove">
+    <button onclick="removeUser()">Remove User</button>
+    <div id="remove-result" class="result"></div>
+  </div>
+
+  <script>
+    const API_URL = 'http://127.0.0.1:5000';
+
+    async function getUsers() {
+      try {
+        const response = await fetch(`${API_URL}/users`);
+        const data = await response.json();
+        document.getElementById('users-result').innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('users-result').innerText = 'Error fetching users';
+      }
+    }
+
+    async function searchUser() {
+      const username = document.getElementById('search-username').value;
+      try {
+        const response = await fetch(`${API_URL}/search?username=${username}`);
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('search-result').innerText = JSON.stringify(data, null, 2);
+        } else {
+          const error = await response.json();
+          document.getElementById('search-result').innerText = error.message;
+        }
+      } catch (error) {
+        document.getElementById('search-result').innerText = 'Error searching for user';
+      }
+    }
+
+    async function addUser() {
+      const name = document.getElementById('add-name').value;
+      const age = document.getElementById('add-age').value;
+      const email = document.getElementById('add-email').value;
+
+      try {
+        const response = await fetch(`${API_URL}/add_user`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, age, email })
+        });
+        const data = await response.json();
+        document.getElementById('add-result').innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('add-result').innerText = 'Error adding user';
+      }
+    }
+
+    async function removeUser() {
+      const email = document.getElementById('remove-email').value;
+
+      try {
+        const response = await fetch(`${API_URL}/remove_user`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+        document.getElementById('remove-result').innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('remove-result').innerText = 'Error removing user';
+      }
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Network Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button {
+            padding: 8px;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>User Network Management</h1>
+
+    <!-- Section to View All Users -->
+    <div class="section" id="view-users-section">
+        <h2>All Users</h2>
+        <button onclick="fetchUsers()">Load Users</button>
+        <div id="users-table-container"></div>
+    </div>
+
+    <!-- Section to Search Users -->
+    <div class="section" id="search-user-section">
+        <h2>Search User</h2>
+        <label for="search-username">Username:</label>
+        <input type="text" id="search-username" placeholder="Enter username to search">
+        <button onclick="searchUser()">Search</button>
+        <div id="search-result"></div>
+    </div>
+
+    <!-- Section to Add a New User -->
+    <div class="section" id="add-user-section">
+        <h2>Add New User</h2>
+        <label for="add-name">Name:</label>
+        <input type="text" id="add-name" placeholder="Enter name">
+        
+        <label for="add-age">Age:</label>
+        <input type="number" id="add-age" placeholder="Enter age">
+        
+        <label for="add-email">Email:</label>
+        <input type="email" id="add-email" placeholder="Enter email">
+        
+        <button onclick="addUser()">Add User</button>
+        <div id="add-user-message"></div>
+    </div>
+
+    <!-- Section to Remove a User -->
+    <div class="section" id="remove-user-section">
+        <h2>Remove User</h2>
+        <label for="remove-email">Email:</label>
+        <input type="email" id="remove-email" placeholder="Enter email to remove">
+        <button onclick="removeUser()">Remove User</button>
+        <div id="remove-user-message"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000'; // Adjust if your Flask app runs on a different host/port
+
+        // Function to fetch and display all users
+        async function fetchUsers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        document.getElementById('users-table-container').innerHTML = '<p>No users found.</p>';
+                        return;
+                    }
+
+                    let table = `<table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+
+                    data.forEach(user => {
+                        table += `<tr>
+                                    <td>${user.Name}</td>
+                                    <td>${user.Age}</td>
+                                    <td>${user.Email}</td>
+                                  </tr>`;
+                    });
+
+                    table += `</tbody></table>`;
+                    document.getElementById('users-table-container').innerHTML = table;
+                } else {
+                    document.getElementById('users-table-container').innerHTML = `<p class="error">${data.message || 'Error fetching users.'}</p>`;
+                }
+            } catch (error) {
+                document.getElementById('users-table-container').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to search for a user by username
+        async function searchUser() {
+            const username = document.getElementById('search-username').value.trim();
+            const resultContainer = document.getElementById('search-result');
+            resultContainer.innerHTML = '';
+
+            if (!username) {
+                resultContainer.innerHTML = `<p class="error">Please enter a username to search.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/search?username=${encodeURIComponent(username)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        resultContainer.innerHTML = `<p>No users found matching "${username}".</p>`;
+                        return;
+                    }
+
+                    let table = `<table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+
+                    data.forEach(user => {
+                        table += `<tr>
+                                    <td>${user.Name}</td>
+                                    <td>${user.Age}</td>
+                                    <td>${user.Email}</td>
+                                  </tr>`;
+                    });
+
+                    table += `</tbody></table>`;
+                    resultContainer.innerHTML = table;
+                } else {
+                    resultContainer.innerHTML = `<p class="error">${data.message || 'Error searching for user.'}</p>`;
+                }
+            } catch (error) {
+                resultContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to add a new user
+        async function addUser() {
+            const name = document.getElementById('add-name').value.trim();
+            const age = document.getElementById('add-age').value.trim();
+            const email = document.getElementById('add-email').value.trim();
+            const messageContainer = document.getElementById('add-user-message');
+            messageContainer.innerHTML = '';
+
+            if (!name || !email) {
+                messageContainer.innerHTML = `<p class="error">Name and Email are required.</p>`;
+                return;
+            }
+
+            const newUser = { name, age: age || null, email };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/add_user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newUser)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageContainer.innerHTML = `<p class="success">${data.message}</p>`;
+                    // Optionally, clear the input fields
+                    document.getElementById('add-name').value = '';
+                    document.getElementById('add-age').value = '';
+                    document.getElementById('add-email').value = '';
+                    // Refresh the users list
+                    fetchUsers();
+                } else {
+                    messageContainer.innerHTML = `<p class="error">${data.error || 'Error adding user.'}</p>`;
+                }
+            } catch (error) {
+                messageContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to remove a user by email
+        async function removeUser() {
+            const email = document.getElementById('remove-email').value.trim();
+            const messageContainer = document.getElementById('remove-user-message');
+            messageContainer.innerHTML = '';
+
+            if (!email) {
+                messageContainer.innerHTML = `<p class="error">Please enter an email to remove.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/remove_user`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageContainer.innerHTML = `<p class="success">${data.message}</p>`;
+                    // Optionally, clear the input field
+                    document.getElementById('remove-email').value = '';
+                    // Refresh the users list
+                    fetchUsers();
+                } else {
+                    messageContainer.innerHTML = `<p class="error">${data.message || 'Error removing user.'}</p>`;
+                }
+            } catch (error) {
+                messageContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Optional: Automatically load users when the page loads
+        window.onload = fetchUsers;
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Network Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button {
+            padding: 8px;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>User Network Management</h1>
+
+    <!-- Section to View All Users -->
+    <div class="section" id="view-users-section">
+        <h2>All Users</h2>
+        <button onclick="fetchUsers()">Load Users</button>
+        <div id="users-table-container"></div>
+    </div>
+
+    <!-- Section to Search Users -->
+    <div class="section" id="search-user-section">
+        <h2>Search User</h2>
+        <label for="search-username">Username:</label>
+        <input type="text" id="search-username" placeholder="Enter username to search">
+        <button onclick="searchUser()">Search</button>
+        <div id="search-result"></div>
+    </div>
+
+    <!-- Section to Add a New User -->
+    <div class="section" id="add-user-section">
+        <h2>Add New User</h2>
+        <label for="add-name">Name:</label>
+        <input type="text" id="add-name" placeholder="Enter name">
+        
+        <label for="add-age">Age:</label>
+        <input type="number" id="add-age" placeholder="Enter age">
+        
+        <label for="add-email">Email:</label>
+        <input type="email" id="add-email" placeholder="Enter email">
+        
+        <button onclick="addUser()">Add User</button>
+        <div id="add-user-message"></div>
+    </div>
+
+    <!-- Section to Remove a User -->
+    <div class="section" id="remove-user-section">
+        <h2>Remove User</h2>
+        <label for="remove-email">Email:</label>
+        <input type="email" id="remove-email" placeholder="Enter email to remove">
+        <button onclick="removeUser()">Remove User</button>
+        <div id="remove-user-message"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000'; // Adjust if your Flask app runs on a different host/port
+
+        // Function to fetch and display all users
+        async function fetchUsers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        document.getElementById('users-table-container').innerHTML = '<p>No users found.</p>';
+                        return;
+                    }
+
+                    let table = `<table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+
+                    data.forEach(user => {
+                        table += `<tr>
+                                    <td>${user.Name}</td>
+                                    <td>${user.Age}</td>
+                                    <td>${user.Email}</td>
+                                  </tr>`;
+                    });
+
+                    table += `</tbody></table>`;
+                    document.getElementById('users-table-container').innerHTML = table;
+                } else {
+                    document.getElementById('users-table-container').innerHTML = `<p class="error">${data.message || 'Error fetching users.'}</p>`;
+                }
+            } catch (error) {
+                document.getElementById('users-table-container').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to search for a user by username
+        async function searchUser() {
+            const username = document.getElementById('search-username').value.trim();
+            const resultContainer = document.getElementById('search-result');
+            resultContainer.innerHTML = '';
+
+            if (!username) {
+                resultContainer.innerHTML = `<p class="error">Please enter a username to search.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/search?username=${encodeURIComponent(username)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        resultContainer.innerHTML = `<p>No users found matching "${username}".</p>`;
+                        return;
+                    }
+
+                    let table = `<table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+
+                    data.forEach(user => {
+                        table += `<tr>
+                                    <td>${user.Name}</td>
+                                    <td>${user.Age}</td>
+                                    <td>${user.Email}</td>
+                                  </tr>`;
+                    });
+
+                    table += `</tbody></table>`;
+                    resultContainer.innerHTML = table;
+                } else {
+                    resultContainer.innerHTML = `<p class="error">${data.message || 'Error searching for user.'}</p>`;
+                }
+            } catch (error) {
+                resultContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to add a new user
+        async function addUser() {
+            const name = document.getElementById('add-name').value.trim();
+            const age = document.getElementById('add-age').value.trim();
+            const email = document.getElementById('add-email').value.trim();
+            const messageContainer = document.getElementById('add-user-message');
+            messageContainer.innerHTML = '';
+
+            if (!name || !email) {
+                messageContainer.innerHTML = `<p class="error">Name and Email are required.</p>`;
+                return;
+            }
+
+            const newUser = { name, age: age || null, email };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/add_user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newUser)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageContainer.innerHTML = `<p class="success">${data.message}</p>`;
+                    // Optionally, clear the input fields
+                    document.getElementById('add-name').value = '';
+                    document.getElementById('add-age').value = '';
+                    document.getElementById('add-email').value = '';
+                    // Refresh the users list
+                    fetchUsers();
+                } else {
+                    messageContainer.innerHTML = `<p class="error">${data.error || 'Error adding user.'}</p>`;
+                }
+            } catch (error) {
+                messageContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Function to remove a user by email
+        async function removeUser() {
+            const email = document.getElementById('remove-email').value.trim();
+            const messageContainer = document.getElementById('remove-user-message');
+            messageContainer.innerHTML = '';
+
+            if (!email) {
+                messageContainer.innerHTML = `<p class="error">Please enter an email to remove.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/remove_user`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageContainer.innerHTML = `<p class="success">${data.message}</p>`;
+                    // Optionally, clear the input field
+                    document.getElementById('remove-email').value = '';
+                    // Refresh the users list
+                    fetchUsers();
+                } else {
+                    messageContainer.innerHTML = `<p class="error">${data.message || 'Error removing user.'}</p>`;
+                }
+            } catch (error) {
+                messageContainer.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Optional: Automatically load users when the page loads
+        window.onload = fetchUsers;
+    </script>
+</body>
+</html>
