@@ -3,5 +3,8 @@ pytest==7.0.1
 pytest-django==4.5.2
 psycopg2==2.9.3  # For PostgreSQL support (use it only if using PostgreSQL)
 gunicorn==20.1.0  # Production-ready WSGI server
-#ddding an extra line
-
+xhtml2pdf
+python-docx==0.8.11
+reportlab
+PyPDF3==1.0.6
+svglib==1.5.1
