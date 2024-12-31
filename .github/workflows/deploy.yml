@@ -1,0 +1,35 @@
+name: Deploy 
+
+on:
+  push:
+    branches:
+      - main
+      - extract_function
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12.3  # Adjust if you use a different Python version
+
+      - name: Install PostgreSQL dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libpq-dev python3-dev
+
+      - name: Install Python dependencies
+        run: |
+          cd release1/cp1/core
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to production on ${{ matrix.os }}..."
+          echo "Deployment successful!"

@@ -23,6 +23,14 @@ jobs:
         with:
           python-version: 3.12.3  # Adjust if you use a different Python version
 
+      - name: Cache Python packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           cd release1/cp1/core  # Navigate to the folder containing manage.py
@@ -31,5 +39,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          cd release1/cp1/core  # Navigate to the folder containing manage.py
+          cd release1/cp1  # Navigate to the folder containing manage.py
           python manage.py test
